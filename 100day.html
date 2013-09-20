@@ -137,7 +137,7 @@ var logoSvg=[0,0,595.28,841.89,{"path":"M26.22,435.448c21.204-2.052,22.572-4.56,
 		                $('#rockDown').hide();
 		                $this.css("paddingTop", ( 0.05 * pos ) + "px").show();
 		                 if (!oParallax.transformStart.start) {
-		                    setTimeout(function(){oParallax.transformStart(2000)},3000);
+		                   oParallax.transformStart(3000);
 		                 }
 		            }
 		            
@@ -157,10 +157,11 @@ var logoSvg=[0,0,595.28,841.89,{"path":"M26.22,435.448c21.204-2.052,22.572-4.56,
 		}
 		
 		oParallax.transformStart = function(m) {
+					        arguments.callee.start = true;
+
 		        var ri = 0,r = this.vecPic,fontPath = this.fontPath,
 		        eleBlack = r[0],r1 = r[1],r2 = r[2] , eleRed = r[3],eleLast = r[4];
 		    
-		        arguments.callee.start = true;
 		
 		        // for (var i = r.length - 1; i >= 0; i--) {
 		            // if (r[i] != eleRed && r[i] != eleBlack) {
@@ -200,14 +201,12 @@ var logoSvg=[0,0,595.28,841.89,{"path":"M26.22,435.448c21.204-2.052,22.572-4.56,
 		            }
 		
 		        }
-		        setTimeout(function(){oParallax.transformStart.start = false},m + 1);
+		        setTimeout(function(){oParallax.transformStart.start = false},m + 1000);
 		
 		    }
-			$(document).ready(function(){			
 		        
 		            oPeng.main();	
 		
-		        });
 	
 })($);
 
