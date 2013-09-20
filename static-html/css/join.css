@@ -1,0 +1,48 @@
+.grid-l-240,.grid-r-620{
+	padding:50px 0 0;
+}
+#banner{
+	height:278px;
+	background:url(i/join-head.jpg) no-repeat 50%;
+}
+/*
+ article
+-----------*/
+.join-article-sec{
+	padding:0 0 20px;
+	line-height:26px;
+	color:#555;
+}
+.join-article-sec h3,.join-aside-sec h3{
+	padding:0 0 10px;
+	border-bottom: 1px solid #ccc;
+    	margin-bottom: 10px;
+	font-size: 16px;
+}
+.join-article-sec h3{
+	color:#993333;
+}
+.join-article-sec  p{
+	margin:0 0  20px;
+	text-align:justify;
+}
+.location{
+	float: right;
+	background: url(i/join-location.jpg) no-repeat 0 50%;
+	padding:0 0 0 20px;
+	font-size:12px;
+	color:#555;
+}
+
+/*
+aside
+-------------*/
+.join-aside-sec{
+	margin:0 0 20px;
+}
+.join-aside-sec li{
+	padding:3px 0;
+}
+.join-aside-sec a:hover{
+	text-decoration:underline;
+}

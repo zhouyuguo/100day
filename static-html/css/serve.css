@@ -1,0 +1,158 @@
+/*面包屑*/
+#breadcrumb{
+	width: 100%;
+	height: 20px;
+	line-height:20px;
+	overflow: hidden;
+	font-size:12px;
+}
+#breadcrumb a,#breadcrumb span{
+	float:left;
+	padding:0 20px 0 12px;
+	color:#999;
+}
+#breadcrumb a{
+	background:url(i/shot-r.png) no-repeat 100% 50%;
+}
+#breadcrumb .first{
+	padding-left:0;
+}
+
+.ico-nav,.ico-ezine,.ico-shop,.ico-read,.ico-weibo,.ico-down{
+	display:inline-block;
+	*display:inline;
+	*zoom:1;
+	width:108px;
+	height:108px;
+	background:url(i/ico-serve.jpg) no-repeat;
+	
+	text-indent:-999em;
+	overflow:hidden;
+}
+.ico-nav{
+	background-position:0 0;
+}
+.ico-weibo{
+	background-position:-323px 0;
+}
+.ico-shop{
+	background-position:-807px 0;
+}
+.ico-read{
+	background-position:-646px 0;
+}
+.ico-ezine{
+	background-position:-161px 0;
+}
+.ico-down{
+	background-position:-484px 0;
+}
+
+
+/**/
+
+.serve-nav{
+	width:100%;
+	overflow:hidden;
+	padding:0 0 48px;
+	
+	border-bottom:1px solid #e0e0e0;
+	position:relative;
+	z-index:100;
+}
+.serve-nav a{
+	float:left;
+	margin:0 54px 0 3px;
+}
+.serve-nav .last{
+	margin:0 0 0 3px;
+}
+
+
+/**/
+.serve-item{
+	width:100%;
+	padding:75px 0 0;
+	border-bottom:1px solid #e0e0e0;
+	position:relative;	
+}
+#serveNav{
+	height:410px;
+	background:url(i/serve-nav.jpg) no-repeat 120px 70px;
+
+}
+#serveShop{
+	height:390px;
+	margin:0 0 180px;
+	background:url(i/serve-shop.jpg) no-repeat 120px 100%;
+	border:none;
+}
+#serveEzine{
+	height:408px;
+	background:url(i/serve-ezine.jpg) no-repeat 50% 0 fixed;
+}
+#serveGame{
+	height:405px;
+	background:url(i/serve-game.jpg) no-repeat 440px 100%;
+}
+#serveDown{
+	height:405px;
+	background:url(i/serve-down.jpg) no-repeat -10px 100%;
+}
+#serveWeibo{
+	height:415px;
+	background:url(i/serve-weibo.jpg) no-repeat 120px 100%;
+}
+
+
+.serve-des-l{
+	float:left;
+	width:280px;
+	padding:0 0 0 140px;
+	margin:0 0 0 3px;
+	position:relative;
+}
+.serve-des-r{
+	float:right;
+	width:280px;
+	padding:0 140px 0 0;
+	margin:0 4px 0 0;
+	position:relative;
+}
+.serve-des-l span,.serve-des-r span{
+	position:absolute;
+	top:5px;
+}
+.serve-des-l span{
+	left:0;
+}
+.serve-des-r span{
+	right:0;
+}
+
+.serve-des-l h3,.serve-des-r h3{
+	padding:0 0 5px;
+	font-size:22px;
+}
+.serve-des-l p,.serve-des-r p{
+	color:#888;
+	line-height:22px;
+	text-align:justify;
+}
+
+.mes{
+	clear:both;
+	color:#666;
+	position:absolute;
+	top:390px;
+	left:50px;
+}
+#serveEzine .mes{
+	left:520px;
+}
+
+/*element hidden*/
+.server-fnPHolder{
+	display:none;
+	visibility:hidden;
+}

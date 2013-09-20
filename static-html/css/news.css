@@ -1,0 +1,128 @@
+#banner{
+	height:219px;
+	margin:0 0 50px;
+	background:url(i/news-head.jpg) no-repeat 50%;
+}
+/*list-news*/
+.list-news{
+	width:470px;
+	padding:0 0 0 150px;
+	margin:0 0 45px;
+	position:relative;
+}
+.list-news .img-box{
+	width:122px;
+	height:92px;
+	padding:4px;
+	background-color:#fff;
+	overflow:hidden;
+	
+	position:absolute;
+		left:0;
+		top:0;
+}
+.list-news .tit-blog{
+	padding:0 0 6px;
+	position:relative;
+}
+ .tit-blog h3{
+	width:100%;
+	white-space:nowrap;
+	text-overflow:ellipsis; 
+	-o-text-overflow:ellipsis;
+	overflow:hidden;
+	font-size:18px;
+}
+.post-blog-info{
+	width:100%;
+	padding:6px 0 0;
+	color:#999;
+	font-size:12px;
+	line-height:1.231;
+	overflow:hidden;
+}
+.post-blog-info span{
+	float:left;
+	padding:0 15px;
+	margin:0 15px 0 -15px;
+	border-left:1px solid #ccc;
+}
+.post-blog-des{
+	height:48px;
+	overflow:hidden;
+	
+	text-align:justify;
+	color:#555;
+	line-height:24px;
+}
+/*aside*/
+.news-aside-sec{
+	margin:0 0 25px;
+}
+.news-aside-sec h3{
+	padding:0 0 10px;
+	margin:0 0 10px;
+	border-bottom:1px solid #ccc;
+	font-size:18px;
+}
+.news-aside-sec li{
+	width:100%;
+	padding:5px 0;
+}
+.add-ico-dian li{
+	padding-left:20px;
+  	background: url(i/ico-dian.png) no-repeat 2px 13px;
+}
+.news-email{
+	height:30px;
+	padding:0 0 0 50px;
+	margin:15px 0;
+	background: url(i/bg-email.png) no-repeat;
+	line-height:30px;
+}
+
+
+/*details*/
+#upload{
+	width:100%;
+	overflow:hidden;
+	color:#555;
+	line-height:24px;
+	text-align:justify;
+}
+#upload h4{
+	padding:15px 0;
+	color:#333;
+	font-weight:bold;
+	font-size:16px;
+}
+#upload p{
+	padding:0 0 20px;
+}
+
+.share{
+	padding:20px 0 100px;
+}
+.tit-share{
+	padding:0 0 10px;
+	font-size:12px;
+	color:#999;
+}
+.share-where{
+	width:100%;
+	background:url(i/ico-share.png) no-repeat;
+	overflow:hidden;
+}
+.share-where a{
+	float:left;
+	width:16px;
+	height:16px;
+	margin:0 10px 0 0;
+	text-indent:-999em;
+	overflow:hidden;
+}
+
+
+
+
+

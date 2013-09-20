@@ -1,0 +1,89 @@
+#wrap{
+	padding:0;
+}
+#main-con{
+	width:100%;
+	padding:55px 0 50px;
+	background-color:#fff;
+}
+#banner{
+	background:url(i/bg-footer.png) repeat-x  0 100%;
+}
+#banner .w940{
+	height:445px;
+	position:relative;
+	background:url(i/index-head.jpg) no-repeat 50% 100%;
+}
+#banner .w940 a{
+	width:208px;
+	height:65px;
+	text-indent:-999em;
+	overflow:hidden;
+	
+	position:absolute;
+	right:131px;
+	bottom:73px;
+}
+/*list*/
+.list-index{
+	width:960px;
+	margin:0 auto;
+}
+.list-index li{
+	float:left;
+	width:300px;
+	display:inline;
+	margin:0 10px; 
+}
+.list-index a{
+	display:block;
+	color:#666;
+	font-size:12px;
+}
+.a-news{
+	width:288px;
+	margin:50px 0 0;
+	padding:0 0 8px 12px;
+	border-bottom:1px solid #ECECEC;
+	background:#fff url(i/head-foot.jpg) no-repeat -286px 8px;
+	overflow:hidden;
+}
+.a-news:hover{
+	border-bottom-color:#0099cc;
+}
+.a-news .tit{
+	float:left;
+	width:210px;
+	height:18px;
+	word-wrap:break-word;
+	overflow:hidden;
+	cursor:pointer;
+}
+.a-news .time{
+	float:right;
+	color:#999;
+	cursor:pointer;
+}
+
+
+/*
+
+index-footer
+-----------------------*/
+#footer{
+	background:url(i/index-bottom-border.jpg) repeat-x;
+}
+#footer .link-partner,#footer .link-partner a{
+	color:#666;
+}
+#footer .link-partner span{
+	margin:0 0 0 8px;
+}
+.national{
+	display:inline-block;
+	*display:inline;
+	*zoom:1;
+	background: url(i/index-national.jpg) no-repeat left center;
+	padding:0 85px 0 12px;
+	color: #333;
+}

@@ -1,0 +1,26 @@
+#main-con{
+	padding:50px 0 100px;
+}
+#banner{
+	height:216px;
+	background:url(i/about-head.jpg) no-repeat 50%;
+}
+.column{
+	float: left;
+	width: 290px;
+	margin-right: 35px;	
+	padding:0 0 20px;
+	line-height:24px;
+	color:#555;
+}
+.column-last{
+	margin:0;
+}
+.column h3{
+	padding:0 0 15px;
+	color: #333;
+	font-size:16px;
+}
+.column p{
+	text-align:justify;
+}
