@@ -1,0 +1,497 @@
+
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8" />
+<style>
+html {overflow:hidden}
+body {position: absolute; margin:0; padding:0;width:100%; height:100%; background: #fff}
+canvas {display:block;background-color:black}
+p {text-align: center; font-size:12px;color:#454545;}
+</style>
+<script src="laro.fsm.js"></script>
+<script src="drawimagecanvas.js"></script>
+<canvas id="canvas" width="600" height="400"></canvas>
+<img id="opera" style="display:none" src="opera_icontest.png" />
+<img id="test" style="display:none" src="test.png" />
+ <canvas id="canvastemp" width="600" height="400" style="display:none"></canvas>
+ 
+
+<script>
+Laro.register('JxHome', function (La) {
+	var pkg = this;
+	this.initStage = function () {
+		var canvas = document.getElementById('canvas');
+		canvas.width = window.innerWidth;
+		canvas.height = window.innerHeight;
+		
+		this.canvas = canvas;
+		this.stage = new CVS.$stage(canvas);
+		this.ctx = this.stage.ctx;
+		this.vpx = canvas.width/2;
+		this.vpy = canvas.height/2;
+		this.normalN = 100;
+		this.normalBalls = [];
+		this.angleX = 0.001;
+		this.angleY = 0.001;
+		
+		this.zstep = 1;
+		this.zflag = 1;
+	}
+	
+	this.range = function (a, b) {
+        return Math.floor(Math.random()*(b-a) + a);
+    }
+	
+	this.tween = function (ball, t) {
+		if (!ball.end) {
+			var _x = ball.xpos, _y = ball.ypos, _z = ball.zpos;
+			var _t = (+new Date) - ball.startAnimTime;
+				ball.xpos = ball.f_xpos + (ball.t_xpos - ball.f_xpos)*Math.sin(Math.PI*_t/(2*t));
+				ball.ypos = ball.f_ypos + (ball.t_ypos - ball.f_ypos)*Math.sin(Math.PI*_t/(2*t));
+				ball.zpos = ball.f_zpos + (ball.t_zpos - ball.f_zpos)*Math.sin(Math.PI*_t/(2*t));
+				if(ball.f_width){
+					ball.logoPos.width = ball.f_width + (ball.t_width - ball.f_width)*Math.sin(Math.PI*_t/(2*t));
+					ball.logoPos.height = ball.f_height + (ball.t_height - ball.f_height)*Math.sin(Math.PI*_t/(2*t));
+				}
+				
+			 if (_t >= t) {
+				ball.xpos = ball.t_xpos;
+				ball.ypos = ball.t_ypos;
+				ball.zpos = ball.t_zpos;
+				if(ball.f_width){
+					ball.logoPos.width = ball.t_width;
+					ball.logoPos.height =ball.t_height;
+				}
+				ball.end = true;
+				//stage.removeChild(ball);
+			}
+		}
+	}
+	
+	this.addNormalBalls = function (n) {
+		var vpx = this.vpx, vpy = this.vpy, range = this.range, stage = this.stage,
+			_this = this;
+		if (n) {
+			this.normalN = n;
+		}
+		for (var i=0; i< this.normalN; i++) {
+
+			var ball = CVS.createPoint3D(this.stage.ctx, function () {
+                var color = 'rgb(219,216,228)';
+				//var a = Math.PI * 2 * Math.random();
+                //var b = Math.PI * 2 * Math.random();
+				//var r = range(vpx, vpy);
+
+				//this.xpos = Math.sin(a) * Math.sin(b) * r;
+				//this.ypos = Math.cos(a) * Math.sin(b) * r;
+				//this.zpos = Math.cos(b) * r;
+				this.xpos = range(-vpx, vpx);
+				this.ypos = range(-vpy, vpy);
+				this.zpos = range(-vpx, vpx);
+
+				this.width = range(8, 15);
+				this.w = this.width;
+				this.draw = function () {
+					/* this.ctx.save();
+					this.ctx.shadowColor = "rgb(255,255,255)";
+					this.ctx.shadowBlur = 30;
+					this.ctx.shadowOffsetX = 0;
+					this.ctx.shadowOffsetY = 0; */
+					this.ctx.beginPath();
+					this.ctx.arc(0, 0, this.width/2, 0, Math.PI*2, true);
+					this.ctx.closePath();
+                    this.ctx.fillStyle = color;
+					this.ctx.fill();
+/* 					this.ctx.restore();
+ */				}
+			});
+			ball.type = 'normal';
+			ball.setVanishPoint(vpx, vpy);
+			ball.setCenterPoint(0, 0, 0);
+			stage.addChild(ball);
+			this.normalBalls.push(ball);
+		}
+	}
+	
+	this.updateBalls = function (dt, name) {
+		var balls = this.particleHash[name];
+		for (var i = 0; i < balls.length; i ++) {
+			var ball = balls[i];
+			
+			//ball.zpos += JxHome.zstep;
+
+			ball.rotateX(this.angleX);
+			ball.rotateY(this.angleY);
+			var scale = ball.getScale(),
+				pos = ball.getScreenXY();
+			ball.width = Math.max(10*scale, 2);
+			ball.height = Math.max(10*scale, 2);
+			ball.x = pos.x;
+			ball.y = pos.y;
+		}
+	};
+
+	this.pushBalls = function (name) {
+		var balls = this.particleHash[name];
+		for (var i = 0; i < balls.length; i ++) {
+			var ball = balls[i];
+			JxHome.stage.addChild(ball);
+			ball.end = false;
+			ball.width = ball.logoPos.width;
+			ball.height = ball.logoPos.height;
+			ball.color = 'rgb('+ball.logoPos.r+', '+ball.logoPos.g+', '+ball.logoPos.b+')';
+			ball.startAnimTime = (+ new Date);
+			
+		}
+	}
+	
+	this.bindStage = function () {
+		var _this = this;
+		/* this.stage.addEventListener('mousemove', function (x, y) {
+			_this.angleY = (x - _this.vpx) * .00001;
+            _this.angleX = (y - _this.vpy) * .00001;
+		}) */
+	}
+	
+	this.initParticles = function () {
+		this.operaParticles = this.getParticles('opera', 40, 40, undefined, "test");
+		
+		this.particleHash = {
+			'normal': this.normalBalls,
+			'opera': this.operaParticles
+		}
+	}
+	this.getParticles = function (id, w, h, z, bgid) {
+		if (z == undefined) { z = 0; }
+		var ret = [];
+		var operaMatrix = [
+				     		[7,9,10,12],
+						
+					     [5,7,9,10,12,14],
+					
+					 [4,6,7,      12,13,15],
+					
+					 [3,5,7,      12,14,16],
+					
+					[2,4,6,        13,15,17],
+									
+					[3,5,7,       12, 14,16],
+
+					 [4,6,7,      12,13,15],
+					
+					     [5,7,9,10,12,14],
+
+					      	[7,9,10,12]
+
+					];
+		//50
+		for(var y = 0,ylen = operaMatrix.length; y < ylen; y++){
+			for(var x = 0,xarr =operaMatrix[y],xlen = xarr.length ; x < xlen; x++){
+				//var i = 4*(x * imageData.height + y);
+				
+					ret.push(new JxHome.Particle(this.stage, this.canvas, id, w, h, xarr[x], y*2, z, 0, 0, 0));
+				
+			}
+		}
+		var cTemp = document.getElementById("canvastemp");
+		var ctx = cTemp.getContext('2d');
+		var bgImg = document.getElementById(bgid);
+		this["img_" + id] = bgImg;
+		var xNum = 10,
+		yNum = 5,
+		pWidth = Math.floor(bgImg.width/xNum),
+		pHeight = Math.floor(bgImg.height/yNum),
+		lineLastWidth = bgImg.width - pWidth*(xNum - 1),
+		columLastHeight = bgImg.height - pHeight*(yNum -1),
+		tempWidth ,tempHeight,
+		tempElement;
+		for(var yi = 0; yi < yNum; yi++){
+			for(var xi = 0; xi < xNum; xi++){
+				tempWidth = xi == xNum - 1 ? lineLastWidth : pWidth;
+				tempHeight = yi == yNum -1 ? columLastHeight : pHeight;
+				tempElement = ret[yi*xNum + xi];
+				if(tempElement){
+					cTemp.width = tempWidth;
+					cTemp.height = tempHeight;
+
+					tempElement.layoutX = xi*pWidth;
+					tempElement.layoutY = yi*pHeight;
+					tempElement.layoutWidth = tempWidth;
+					tempElement.layoutHeight = tempHeight;
+					ctx.drawImage(bgImg, tempElement.layoutX, tempElement.layoutY, tempWidth, tempHeight, 0, 0, tempWidth, tempHeight);
+				    var _img = document.createElement("IMG");
+				    _img.src =  cTemp.toDataURL();
+				    tempElement.img = _img;
+				    tempElement.logo
+				  /*   tempElement.width = tempWidth;
+				    tempElement.height = tempHeight; */
+				    tempElement.logoPos.width = tempWidth/4;
+				    tempElement.logoPos.height = tempHeight/4;
+				}
+			}
+		}
+		return ret;
+	}
+	
+	this.init = function () {
+		this.initStage();
+		this.bindStage();
+		this.initParticles();
+		//this.addNormalBalls();
+		
+		JxHome.$fsm.init();
+		JxHome.$loop.init();
+	}
+});
+
+Laro.register('JxHome', function (La) {
+	var pkg = this,
+		range = JxHome.range,
+		vpx = JxHome.vpx,
+		vpy = JxHome.vpy;
+	
+	this.Particle = function (stage, canvas, id, w, h, x, y, z, r, g, b, dx, dy ,dz) {
+		this.canvas = canvas;
+		
+		var vpx = canvas.width/2,
+			vpy = canvas.height/2;
+
+		var ball =  CVS.createPoint3D(stage.ctx, function(rcolor,gcolor,bcolor){
+			
+			return function () {
+/* 			var color = 'rgb('+ range(200, 255) +', '+ range(200, 255) +', '+ range(200, 255) +')';
+ */	
+	var color = 'rgb('+rcolor+','+gcolor+','+bcolor+')';
+
+ //var color = 'rgb('+r+', '+g+', '+b+')';
+			
+			/*	this.xpos = range(-10*vpx, 10*vpx);
+				this.ypos = range(-10*vpy, 10*vpy);
+				this.zpos = 10*vpx;
+				*/
+				var a = Math.PI * 2 * Math.random();
+                var b = Math.PI * 2 * Math.random();
+				var r = range(vpx, vpy);
+				var oriImg = JxHome.img_opera;
+				
+				
+				this.xpos = Math.sin(a) * Math.sin(b) * r;
+				this.ypos = Math.cos(a) * Math.sin(b) * r;
+				this.zpos = -Math.abs(Math.cos(b) * r);
+				
+				this.width = range(3, 15);
+				this.color = color;
+				this.draw = function () {
+					var width = this.width;
+					var height = this.height ? this.height : width; 
+					//this.children[i].translate(-this.children[i].x, this.children[i].y);
+									//this.ctx.translate(-this.x, -this.y);
+					this.ctx.drawImage(this.img,0,0,ball.width,ball.height + 1);
+
+					/* this.ctx.beginPath();
+					this.ctx.arc(0, 0, this.width/2, 0, Math.PI*2, true);
+					this.ctx.closePath();
+                    this.ctx.fillStyle = this.color;
+					this.ctx.fill(); */
+				}
+		}}(r,g,b));
+
+		ball.logoPos = {
+			x: (x-w/4)*20,
+			y: (y-h/4)*20,
+			z: 150,
+			width: 0.5,
+			r: r,
+			g: g,
+			b: b
+		};
+		ball.f_xpos = ball.xpos;
+		ball.f_ypos = ball.ypos;
+		ball.f_zpos = ball.zpos;
+		ball.t_xpos = ball.logoPos.x;
+		ball.t_ypos = ball.logoPos.y;
+		ball.t_zpos = ball.logoPos.z;
+		ball.d_xpos = dx;
+		ball.d_ypos = dy;
+		ball.d_zpos = dz;
+		ball.startAnimTime = (+new Date);
+		ball.end = true;
+		ball.type = id;
+		
+		ball.setVanishPoint(canvas.width/2, canvas.height/2);
+		ball.setCenterPoint(0, 0, 0);
+		
+		ball.moveX = 1 - Math.random()*2;
+		//stage.addChild(ball);
+		
+		return ball;
+	}
+});
+
+Laro.register('JxHome.$states', function (La) {
+	var pkg = this;
+	
+	this.No = La.BaseState.extend(function () {
+	
+	}).methods({
+		enter: function (msg, fromState) {
+			this._t = 0;
+			JxHome.addNormalBalls();
+		},
+		leave: function () {
+		
+		},
+		update: function (dt) {
+			this._t += dt;
+			JxHome.updateBalls(dt, 'normal');
+		},
+		transition: function () { 
+			if (this._t > 2) { 
+				this.host.setState(1);
+			} 
+		},
+		draw: function () {
+			
+		}
+	});
+	
+	this.OPERA = La.BaseState.extend(function () {
+	
+	}).methods({
+		enter: function (msg, fromState) {
+			for (var i = 0; i < JxHome.operaParticles.length; i ++) {
+				var ball = JxHome.operaParticles[i];
+				JxHome.stage.addChild(ball);
+				ball.end = false;
+				ball.width = ball.logoPos.width;
+				ball.height = ball.logoPos.height;
+				ball.startAnimTime = (+ new Date);
+				
+			}
+			this._t = 0;
+			this.explosion = false;
+		},
+		leave: function () {
+			for (var i = 0; i < JxHome.stage.children.length; i ++) {
+				var ball = JxHome.stage.children[i];
+				if (ball.type == 'normal') {
+					JxHome.stage.children.splice(i, 1);
+					i --;
+				}
+			}
+		},
+		update: function (dt) {
+			this._t += dt;
+			JxHome.updateBalls(dt, 'normal');
+			
+			for (var i = 0; i < JxHome.operaParticles.length; i ++) {
+				var ball = (JxHome.operaParticles[i]);
+				JxHome.tween(ball, 5000);
+				/* ball.zpos += JxHome.zstep; */
+				
+				//ball.rotateX(JxHome.angleX);
+				ball.rotateY(JxHome.angleY);
+				var scale = ball.getScale(),
+				pos = ball.getScreenXY();
+				ball.width = Math.max(ball.logoPos.width*scale, 2);
+				ball.height = Math.max(ball.logoPos.height*scale, 2);
+				ball.x = pos.x;
+				ball.y = pos.y;
+			}
+		},
+		transition: function () {
+			var range = JxHome.range,
+				vpx = JxHome.vpx,
+				vpy = JxHome.vpy;
+			if(this._t > 5 && !this.explosion){
+				JxHome.angleY = -0.008;
+			}
+			if (this._t > 18 && !this.explosion) {
+				JxHome.angleY = 0;
+				for (var i = 0; i < JxHome.operaParticles.length; i ++) {
+					var ball = JxHome.operaParticles[i];
+
+					ball.f_xpos = ball.xpos;
+					ball.f_ypos = ball.ypos;
+					ball.f_zpos = ball.zpos;
+					ball.t_xpos = ball.layoutX - JxHome.img_opera.width/2;
+					ball.t_ypos = ball.layoutY - JxHome.img_opera.height/2;
+					ball.t_zpos = 0;
+					//ball.logoPos.width = ball.layoutWidth;
+					//ball.logoPos.height = ball.layoutHeight;
+					ball.f_width = ball.width;
+					ball.f_height = ball.height;
+					ball.t_width = ball.layoutWidth;
+					ball.t_height = ball.layoutHeight;
+					//ball.setVanishPoint(0,0);
+					ball.end = false;
+					//ball.logoPos.width = ball.layoutWidth;
+					//ball.logoPos.height = ball.layoutHeight;
+
+					ball.startAnimTime = (+ new Date);
+				}
+				this.explosion = true;
+				this.explosionT = (+new Date);
+			} 
+			if (this.explosion && (+new Date) - this.explosionT >= 1000) {
+				//this.host.setState(2);
+				//return
+			}  
+		},
+		draw: function () {
+		
+		}
+	});
+});
+	
+	
+Laro.register('JxHome.$fsm', function (La) {
+	var pkg = this;
+	
+	this.init = function () {
+		this.getStatesList();
+		this.$ = new La.AppFSM(this, this.statesList);
+		this.$.setState(0);
+	}
+	this.getStatesList = function () {
+		this.statesList = [
+			0, JxHome.$states.No,
+			1, JxHome.$states.OPERA
+		];
+	}
+	
+	this.setState = function (state, msg, suspendCurrent) {
+		this.$.setState(state, msg, suspendCurrent);
+	}
+});
+
+Laro.register('JxHome.$loop', function (La) {
+	var pkg = this;
+	
+	this.init = function () {
+		this.$ = new La.Loop(this.looper, this);
+	}
+	
+	this.looper = function (dt) {
+		this.update(dt);
+		this.draw();
+	}
+	this.update = function (dt) {
+		JxHome.$fsm.$.update(dt);
+		if (JxHome.zstep > 1 || JxHome.zstep < 0) {
+			JxHome.zflag *= -1;
+		}
+		JxHome.zstep += JxHome.zflag*0.01;
+		//JxHome.updateNormalBalls(dt);
+	}
+	this.draw = function () {
+		JxHome.ctx.clearRect(0, 0, JxHome.canvas.width, JxHome.canvas.height);
+		JxHome.stage.render();
+		//JxHome.$fsm.$.draw();
+	}
+});
+
+onload = function () { JxHome.init() }
+</script>
+</html>
+

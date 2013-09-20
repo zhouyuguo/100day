@@ -1,0 +1,40 @@
+.grid-l-240,.grid-r-620{
+	padding:65px 0 0;
+}
+#banner{
+	height:218px;
+	background:url(i/faq-head.jpg) no-repeat 50%;
+}
+/*
+ article
+-----------*/
+.join-article-sec{
+	padding:0 0 25px;
+	line-height:26px;
+	color:#555;
+}
+.join-article-sec h3,.join-aside-sec h3{
+	padding:0 0 10px;
+	border-bottom: 1px solid #ccc;
+    	margin-bottom: 10px;
+	font-size: 16px;
+}
+.join-article-sec h3{
+	color:#993333;
+}
+.join-article-sec  p{
+	text-align:justify;
+}
+
+/*
+aside
+-------------*/
+.join-aside-sec{
+	margin:0 0 20px;
+}
+.join-aside-sec li{
+	padding:3px 0;
+}
+.join-aside-sec a:hover{
+	text-decoration:underline;
+}
